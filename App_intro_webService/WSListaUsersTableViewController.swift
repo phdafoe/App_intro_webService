@@ -1,29 +1,24 @@
 //
-//  PrimerWebServiceTableViewController.swift
+//  WSListaUsersTableViewController.swift
 //  App_intro_webService
 //
-//  Created by formador on 27/2/17.
+//  Created by formador on 1/3/17.
 //  Copyright © 2017 formador. All rights reserved.
 //
 
 import UIKit
 
-class PrimerWebServiceTableViewController: UITableViewController {
+class WSListaUsersTableViewController: UITableViewController {
     
-    //MARK: - Variables locales
-    var arrayPosts : [WSPostModel] = []
+    var arrayUsers : [WSUsersModel] = []
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //MARK: - alimentamos nuestro array con el singleton
-
-        arrayPosts = APIManagerData.shared.getPostsApi()
-        
+        arrayUsers = APIManagerData.shared.getUsersApi()
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -38,23 +33,35 @@ class PrimerWebServiceTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return arrayPosts.count
+        return arrayUsers.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let customCell = tableView.dequeueReusableCell(withIdentifier: "DatosCustomCell", for: indexPath) as! WSDatosCustomCell
+        let customUsersCell = tableView.dequeueReusableCell(withIdentifier: "UsersCustomCell", for: indexPath) as! WSUsersCustomCell
 
         // Configure the cell...
-        let model = arrayPosts[indexPath.row]
+        let userModel = arrayUsers[indexPath.row]
         
-        customCell.myTituloLBL.text = model.title
-        customCell.myNumeroIdLBL.text = "\(model.id!)"
-        customCell.myIdUsuarioLBL.text = String(describing: model.userId!)
-        customCell.myCuerpoMensajeLBL.text = model.body
+        customUsersCell.myIdLBL.text = "\(userModel.id!)"
+        customUsersCell.myNombreLBL.text = userModel.name
+        customUsersCell.myUsernameLBL.text = userModel.username
+        customUsersCell.myEmailLBL.text = userModel.email
+        customUsersCell.myCalleLBL.text = userModel.address?.street
+        customUsersCell.myNumeroLBL.text = userModel.address?.suite
+        customUsersCell.myCiudadLBL.text = userModel.address?.city
+        customUsersCell.myCodigoPostalLBL.text = userModel.address?.zipcode
+        customUsersCell.myLatitudLBL.text = userModel.address?.geo?.lat
+        customUsersCell.myLongitudLBL.text = userModel.address?.geo?.lng
+        customUsersCell.myMovilLBL.text = userModel.phone
+        customUsersCell.myWebsiteLBL.text = userModel.website
+        customUsersCell.myNombreEmpresaLBL.text = userModel.company?.name
+        customUsersCell.myFrasePromocionalLBL.text = userModel.company?.catchPhrase
+        customUsersCell.myBsLBL.text = userModel.company?.bs
         
-        return customCell
+        
+        
+        return customUsersCell
     }
     
 
